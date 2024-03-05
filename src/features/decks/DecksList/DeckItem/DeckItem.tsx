@@ -22,14 +22,14 @@ export const DeckItem = ({ deck }: DeckProps) => {
   const handleDeleteButtonClick = () => {
     setIsLoading(true)
     dispatch(deleteDeckTC(deck.id))
-      .then(() => setIsLoading(false))
+      .finally(() => setIsLoading(false))
 
   }
 
   const handleEditButtonClick = () => {
     setIsLoading(true)
     dispatch(updateDeckTC({ id: deck.id, name: `${deck.name} updated` }))
-      .then(() => setIsLoading(false))
+      .finally(() => setIsLoading(false))
 
   }
 
