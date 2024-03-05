@@ -3,6 +3,7 @@ import { DeckItem } from './DeckItem/DeckItem.tsx'
 import { useFetchDecks } from './useFetchDecks.ts'
 
 export const DecksList = () => {
+
   const { decks } = useFetchDecks()
 
   return (
