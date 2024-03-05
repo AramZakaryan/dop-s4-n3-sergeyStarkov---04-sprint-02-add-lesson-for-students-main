@@ -2,6 +2,8 @@ import { Dispatch } from 'redux'
 import { decksAPI, UpdateDeckParams } from './decks-api.ts'
 import { addDeckAC, deleteDeckAC, setDecksAC, updateDeckAC } from './decks-reducer.ts'
 import { setAppStatusAC } from '../../app/app-reducer.ts'
+import { AxiosError } from 'axios'
+import { isAxiosError } from 'axios'
 
 export const fetchDecksTC = () => async (dispatch: Dispatch) => {
   try {
@@ -30,25 +32,16 @@ export const deleteDeckTC = (id: string) => async (dispatch: Dispatch) => {
 export const updateDeckTC = (params: UpdateDeckParams) => async (dispatch: Dispatch) => {
 
   try {
-
-    // throw new Error('uxux')
-
     const res = await decksAPI.updateDeck(params)
     dispatch(updateDeckAC(res.data))
-  } catch (err: any) {
+  } catch (err) {
 
-    const errorMessage = err.code === 'ERR_BAD_REQUEST'
-      ? err.response.data.errorMessages[0].message
-      : err.message
-
-    // let errorMessage
-    // if (err.code === 'ERR_BAD_REQUEST') {
-    //   errorMessage = err.response.data.errorMessages[0].message
-    // } else if (err.code === 'ERR_NETWORK') {
-    //   errorMessage = err.message
-    // } else {
-    //   errorMessage = err.message
-    // }
+    let errorMessage: string
+    if (isAxiosError(err)) {
+      errorMessage = err.response ? err.response.data.errorMessages[0].message : err.message
+    } else {
+      errorMessage = (err as Error).message
+    }
 
     console.log(errorMessage)
 
