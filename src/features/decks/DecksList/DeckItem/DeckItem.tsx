@@ -14,8 +14,6 @@ export const DeckItem = ({ deck }: DeckProps) => {
 
   const [isLoading, setIsLoading] = useState(false)
 
-  console.log(isLoading)
-
   const isTestingDeck = deck.author.name === TEST_ACC_NAME
   const dispatch = useAppDispatch()
 
@@ -23,7 +21,6 @@ export const DeckItem = ({ deck }: DeckProps) => {
     setIsLoading(true)
     dispatch(deleteDeckTC(deck.id))
       .finally(() => setIsLoading(false))
-
   }
 
   const handleEditButtonClick = () => {

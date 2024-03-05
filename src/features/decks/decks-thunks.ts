@@ -28,7 +28,29 @@ export const deleteDeckTC = (id: string) => async (dispatch: Dispatch) => {
 }
 
 export const updateDeckTC = (params: UpdateDeckParams) => async (dispatch: Dispatch) => {
-  return decksAPI.updateDeck(params).then((res) => {
+
+  try {
+
+    // throw new Error('uxux')
+
+    const res = await decksAPI.updateDeck(params)
     dispatch(updateDeckAC(res.data))
-  })
+  } catch (err: any) {
+
+    const errorMessage = err.code === 'ERR_BAD_REQUEST'
+      ? err.response.data.errorMessages[0].message
+      : err.message
+
+    // let errorMessage
+    // if (err.code === 'ERR_BAD_REQUEST') {
+    //   errorMessage = err.response.data.errorMessages[0].message
+    // } else if (err.code === 'ERR_NETWORK') {
+    //   errorMessage = err.message
+    // } else {
+    //   errorMessage = err.message
+    // }
+
+    console.log(errorMessage)
+
+  }
 }
