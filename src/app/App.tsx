@@ -4,7 +4,7 @@ import { GlobalError } from './GlobalError/GlobalError.tsx'
 import { selectAppStatus } from './app-selectors.ts'
 import { useAppSelector } from './store.ts'
 import { LinearLoader } from '../common/components/Loader/LinearLoader.tsx'
-import { AppStateType } from './app-reducer.ts'
+
 
 export const App = () => {
 
@@ -18,3 +18,5 @@ export const App = () => {
     </div>
   )
 }
+
+
