@@ -2,8 +2,7 @@ import { Dispatch } from 'redux'
 import { decksAPI, UpdateDeckParams } from './decks-api.ts'
 import { addDeckAC, deleteDeckAC, setDecksAC, updateDeckAC } from './decks-reducer.ts'
 import { setAppStatusAC } from '../../app/app-reducer.ts'
-import { AxiosError } from 'axios'
-import { isAxiosError } from 'axios'
+import { setError } from '../../common/utils/set-error.ts'
 
 export const fetchDecksTC = () => async (dispatch: Dispatch) => {
   try {
@@ -32,18 +31,14 @@ export const deleteDeckTC = (id: string) => async (dispatch: Dispatch) => {
 export const updateDeckTC = (params: UpdateDeckParams) => async (dispatch: Dispatch) => {
 
   try {
+    // throw new Error("vay amaaaan")
     const res = await decksAPI.updateDeck(params)
     dispatch(updateDeckAC(res.data))
+
   } catch (err) {
 
-    let errorMessage: string
-    if (isAxiosError(err)) {
-      errorMessage = err.response ? err.response.data.errorMessages[0].message : err.message
-    } else {
-      errorMessage = (err as Error).message
-    }
-
-    console.log(errorMessage)
+    setError(err, dispatch)
 
   }
+
 }
